@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GiffsApp</string>
+    <string name="remote">Remote data</string>
+    <string name="local">Local data</string>
+</resources>
