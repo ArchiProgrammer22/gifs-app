@@ -1,11 +1,8 @@
 package com.example.giffsapp
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
 import com.example.giffsapp.di.DaggerAppComponent
 import com.example.giffsapp.di.DatabaseModule
-import com.example.giffsapp.di.NetworkModule
 
 class GifApplication : Application() {
 

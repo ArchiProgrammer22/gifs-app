@@ -51,8 +51,8 @@ class GifFullscreenFragment : Fragment(), ViewPagerCallback {
     }
 
     private fun checkType(type: String): List<SimpleGif> {
-        return if (type == getString(R.string.remote)) viewModel.remoteLiveData.value!!
-        else viewModel.localLiveData.value!!
+        return if (type == getString(R.string.remote)) viewModel.getRemoteData()
+        else viewModel.getLocalData()
 
     }
 }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.giffsapp.R
@@ -24,11 +23,11 @@ class GifsPagerAdapter(
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
         Glide.with(context)
             .load(list[position].url)
             .placeholder(R.drawable.ic_launcher_background)
             .into(holder.image)
+
         holder.image.setOnClickListener {
             viewPagerCallback.onClick()
         }

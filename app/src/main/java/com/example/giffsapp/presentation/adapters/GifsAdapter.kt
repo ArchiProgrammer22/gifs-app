@@ -11,7 +11,7 @@ import com.example.giffsapp.R
 import com.example.giffsapp.data.local.entities.SimpleGif
 
 class GifsAdapter(
-    private val list: List<SimpleGif>,
+    private var list: List<SimpleGif>,
     private val context: Context,
     private val onGifCallback: GifCallback,
 ) : RecyclerView.Adapter<GifsAdapter.ViewHolder>() {
@@ -27,6 +27,7 @@ class GifsAdapter(
             .load(list[position].url)
             .placeholder(R.drawable.ic_launcher_background)
             .into(holder.image)
+
         holder.image.setOnClickListener {
             onGifCallback.onClick(list, position)
         }

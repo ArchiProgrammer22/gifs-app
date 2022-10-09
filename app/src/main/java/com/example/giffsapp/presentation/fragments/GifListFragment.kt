@@ -15,7 +15,7 @@ import com.example.giffsapp.presentation.adapters.GifsAdapter
 import com.example.giffsapp.presentation.viewmodels.GifViewModel
 import javax.inject.Inject
 
-class GifRemoteListFragment : Fragment(), GifCallback {
+class GifListFragment : Fragment(), GifCallback {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -25,7 +25,8 @@ class GifRemoteListFragment : Fragment(), GifCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        (requireContext().applicationContext as GifApplication).appComponent.inject(this)
+        (requireContext().applicationContext as GifApplication).appComponent
+            .inject(this)
     }
 
     override fun onCreateView(
@@ -40,11 +41,11 @@ class GifRemoteListFragment : Fragment(), GifCallback {
         requireActivity().title = getString(R.string.remote)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-        updateList(viewModel.localLiveData.value!!)
-
-        viewModel.remoteLiveData.observe(requireActivity(), {
-            updateList(it)
-        })
+        recyclerView.adapter = GifsAdapter(
+            viewModel.getRemoteData(),
+            requireContext(),
+            this
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -57,7 +58,7 @@ class GifRemoteListFragment : Fragment(), GifCallback {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                val newList = viewModel.localLiveData.value!!
+                val newList = viewModel.getLocalData()
                     .filter { it.name.contains(newText!!) }
                 updateList(newList)
                 return false
@@ -71,7 +72,7 @@ class GifRemoteListFragment : Fragment(), GifCallback {
         when (item.itemId) {
             R.id.menuUpdate -> {
                 requireActivity().title = getString(R.string.remote)
-                updateList(viewModel.remoteLiveData.value!!)
+                updateList(viewModel.getRemoteData())
             }
             R.id.menuLocalData -> {
                 requireActivity().title = getString(R.string.local)
@@ -101,8 +102,8 @@ class GifRemoteListFragment : Fragment(), GifCallback {
             popupMenu.inflate(R.menu.delete_menu)
             popupMenu.setOnMenuItemClickListener {
                 viewModel.deleteData(list[id])
-                val newList = viewModel.localLiveData.value
-                updateList(newList!!)
+                val newList = viewModel.getLocalData()
+                updateList(newList)
                 return@setOnMenuItemClickListener true
             }
             popupMenu.show()
